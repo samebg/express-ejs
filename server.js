@@ -15,6 +15,11 @@ app.get('/',(req,res)=>{
   res.render('pages/index', {title});
 });
 
+app.get('/about', (req, res) => {
+  let title = 'About';
+  res.render('pages/about', { title });
+});
+
 //about page/url
 app.get('/about',(req,res)=>{
   res.render('pages/about')
