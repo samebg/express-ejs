@@ -7,6 +7,9 @@ const port = 3000;
 //create instance of Express app
 const app = express();
 
+// Set the views directory
+app.set('views', __dirname + '/views');
+
 // ejs is templating engine
 app.set('view engine','ejs');
 
@@ -28,6 +31,18 @@ app.get('/about',(req,res)=>{
   let title = "About Page";
   res.render("pages/about", {"title": title});
 
+});
+
+// Tottenham page route
+app.get('/tottenham',(req,res)=>{
+  let title = "Tottenham Hotspur";
+  res.render("pages/tottenham", {"title": title});
+});
+
+// Gospel page route
+app.get('/gospel',(req,res)=>{
+  let title = "Gospel Verses";
+  res.render("pages/gospel", {"title": title});
 });
 
 //index/users URL
