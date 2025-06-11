@@ -45,6 +45,18 @@ app.get('/gospel',(req,res)=>{
   res.render("pages/gospel", {"title": title});
 });
 
+// Premier League page route
+app.get('/premier-league',(req,res)=>{
+  let title = "Premier League";
+  res.render("pages/premier-league", {"title": title});
+});
+
+// LaLiga page route
+app.get('/laliga',(req,res)=>{
+  let title = "LaLiga";
+  res.render("pages/laliga", {"title": title});
+});
+
 //index/users URL
 app.get('/users',(req,res)=>{
   let title = "Users Page";
