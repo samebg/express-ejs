@@ -1,6 +1,12 @@
 //include Express
 const express = require('express');
 
+//includes .env file for credentials
+require('dotenv').config();
+
+//manages database connectivity
+require('./models/mongoose');
+
 //server will listen on this port
 const port = 3000;
 
@@ -16,8 +22,29 @@ app.set('view engine','ejs');
 //this will allow us to serve up static files, CSS, images & JS
 app.use(express.static('public'));
 
+// parse urlencoded bodies
+app.use(express.urlencoded({ extended: true }));
+
+//create session data
+const session = require('express-session');
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
+
+//pass session data to routes
+app.use((req, res, next) => {
+  res.locals.message = req.session.message;
+  delete req.session.message;
+  next();
+});
+
+//allows us to delete records - add just below express
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 // reference test json file of users
 var data = require('./test.json');
+
+// Import routes
+const recipesRouter = require('./routes/recipes');
 
 //index/home URL
 app.get('/',(req,res)=>{
@@ -57,6 +84,10 @@ app.get('/laliga',(req,res)=>{
   res.render("pages/laliga", {"title": title});
 });
 
+//Create server, deal with requests/responses
+const recipeRoutes = require('./routes/recipes');
+app.use('/recipes', recipeRoutes);
+
 //index/users URL
 app.get('/users',(req,res)=>{
   let title = "Users Page";
@@ -76,8 +107,6 @@ app.get('/users/view/:id', function(req, res) {
      user: data[--id]
  });
 });
-
-
 
 //Set server to listen for requests
 app.listen(port, () => {
